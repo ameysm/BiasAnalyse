@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bias_analyse.ui'
 #
-# Created: Thu Sep 19 13:25:00 2013
+# Created: Thu Sep 19 13:38:16 2013
 #      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(1287, 806)
+        MainWindow.resize(1291, 806)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.treeView = QtGui.QTreeView(self.centralwidget)
@@ -39,6 +39,9 @@ class Ui_MainWindow(object):
         self.overviewTab.setObjectName(_fromUtf8("overviewTab"))
         self.statTable = QtGui.QTableWidget(self.overviewTab)
         self.statTable.setGeometry(QtCore.QRect(10, 10, 781, 221))
+        self.statTable.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.statTable.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+        self.statTable.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
         self.statTable.setObjectName(_fromUtf8("statTable"))
         self.statTable.setColumnCount(3)
         self.statTable.setRowCount(0)
@@ -53,6 +56,8 @@ class Ui_MainWindow(object):
         self.runstatTab.setObjectName(_fromUtf8("runstatTab"))
         self.tableWidget = QtGui.QTableWidget(self.runstatTab)
         self.tableWidget.setGeometry(QtCore.QRect(10, 10, 361, 221))
+        self.tableWidget.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setSelectionBehavior(QtGui.QAbstractItemView.SelectItems)
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.tableWidget.setColumnCount(3)
         self.tableWidget.setRowCount(0)
@@ -108,7 +113,7 @@ class Ui_MainWindow(object):
         self.tabWidget_2.addTab(self.tab_2, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1287, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1291, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
@@ -116,7 +121,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 

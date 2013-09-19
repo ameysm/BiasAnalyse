@@ -63,7 +63,10 @@ class BiasAnalyse(QtGui.QMainWindow):
         delta_v = []
         delta_t = []
         self.__plotController.clearBiasPlot()
+        self.__plotController.clearDeltaPlot()
         datadict = self.parseBiasFile(self.filePath)
+        if datadict == None:
+            return
         try:
             t_0 = self.__statController.calculateStatistics(datadict[0].getDrainList(),datadict[0].getVoltageList(),str(self.ui.current_v_on.text()),str(self.ui.voltage_i_on.text())) 
         except ValueError:
@@ -136,5 +139,8 @@ class BiasAnalyse(QtGui.QMainWindow):
                 except IndexError:
                     print "index error : "+line
         myfile.close()
+        if len(datadict.keys()) == 0:
+            QtGui.QMessageBox.warning(None, QtCore.QString("DataError"), QtCore.QString("Seems like the data file is corrupt or misses sweep data. "), QtGui.QMessageBox.Ok)
+            return None
         return datadict
                 

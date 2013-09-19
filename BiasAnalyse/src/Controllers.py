@@ -38,7 +38,7 @@ class PlotController(object):
         self.__statPlot.canvas.getAx_v().set_ylabel("Delta V_on [V]")
         self.__statPlot.canvas.getAx_v().set_xscale('log')
         self.__statPlot.canvas.getAx_v().scatter(delta_t,delta_v,marker='o')
-        
+        self.__statPlot.canvas.draw()
         
 
 class StatisticsController(object):
