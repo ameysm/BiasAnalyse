@@ -83,6 +83,18 @@ class BiasAnalyse(QtGui.QMainWindow):
             
         thread2 = Thread(target=self.__plotController.plotDeltaStat,args=(delta_i, delta_v, delta_t))
         thread2.start()
+        self.addToOverview(t[0]-t_0[0], t[1]-t_0[1])
+    
+    def addToOverview(self,i_on,v_on):
+        lastrow = self.ui.statTable.rowCount()
+        self.ui.statTable.insertRow(lastrow)
+        path = QtGui.QTableWidgetItem(self.filePath)
+        i__on = QtGui.QTableWidgetItem(str(i_on))
+        v__on = QtGui.QTableWidgetItem(str(v_on))
+        self.ui.statTable.setItem(lastrow,0,path)
+        self.ui.statTable.setItem(lastrow,1,v__on)
+        self.ui.statTable.setItem(lastrow,2,i__on)      
+        
     def insertStatinTable(self,timestamp,delta_i,delta_v):
         lastrow = self.ui.tableWidget.rowCount()
         self.ui.tableWidget.insertRow(lastrow)
@@ -93,6 +105,7 @@ class BiasAnalyse(QtGui.QMainWindow):
         self.ui.tableWidget.setItem(lastrow, 0, timestamp)
         self.ui.tableWidget.setItem(lastrow, 1, delta_i)
         self.ui.tableWidget.setItem(lastrow, 2, delta_v)
+        
     def parseBiasFile(self,filepath):
         myfile = open(filepath,'r')
         file_content = myfile.readlines()

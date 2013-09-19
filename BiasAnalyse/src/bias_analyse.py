@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'bias_analyse.ui'
 #
-# Created: Wed Sep 18 16:05:44 2013
+# Created: Thu Sep 19 13:25:00 2013
 #      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -35,9 +35,6 @@ class Ui_MainWindow(object):
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(470, 490, 811, 261))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
-        self.statSettings = QtGui.QWidget()
-        self.statSettings.setObjectName(_fromUtf8("statSettings"))
-        self.tabWidget.addTab(self.statSettings, _fromUtf8(""))
         self.overviewTab = QtGui.QWidget()
         self.overviewTab.setObjectName(_fromUtf8("overviewTab"))
         self.statTable = QtGui.QTableWidget(self.overviewTab)
@@ -51,18 +48,6 @@ class Ui_MainWindow(object):
         self.statTable.setHorizontalHeaderItem(1, item)
         item = QtGui.QTableWidgetItem()
         self.statTable.setHorizontalHeaderItem(2, item)
-        self.horizontalLayoutWidget = QtGui.QWidget(self.overviewTab)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 290, 341, 41))
-        self.horizontalLayoutWidget.setObjectName(_fromUtf8("horizontalLayoutWidget"))
-        self.horizontalLayout = QtGui.QHBoxLayout(self.horizontalLayoutWidget)
-        self.horizontalLayout.setMargin(0)
-        self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
-        self.pushButton_2 = QtGui.QPushButton(self.horizontalLayoutWidget)
-        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
-        self.horizontalLayout.addWidget(self.pushButton_2)
-        self.pushButton = QtGui.QPushButton(self.horizontalLayoutWidget)
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.horizontalLayout.addWidget(self.pushButton)
         self.tabWidget.addTab(self.overviewTab, _fromUtf8(""))
         self.runstatTab = QtGui.QWidget()
         self.runstatTab.setObjectName(_fromUtf8("runstatTab"))
@@ -131,21 +116,18 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Bias Analyse", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.statSettings), _translate("MainWindow", "Settings", None))
         item = self.statTable.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "FILENAME", None))
         item = self.statTable.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "V_ON", None))
         item = self.statTable.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "I_ON", None))
-        self.pushButton_2.setText(_translate("MainWindow", "Remove selected ...", None))
-        self.pushButton.setText(_translate("MainWindow", "Plot selected ...", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.overviewTab), _translate("MainWindow", "Overview", None))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "SWEEP INTERVAL", None))
