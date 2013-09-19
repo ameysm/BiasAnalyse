@@ -82,12 +82,12 @@ class StatisticsController(object):
         i2 = float(Id[index_2])
         return v1+((v2-v1)/(i2-i1))*(currVon-i1)
         
-    def interpolateCurrent(self,index_1,index_2,Id,V,v_on):
+    def interpolateCurrent(self,index_1,index_2,Id,V,v_def):
         v1 = float(V[index_1])
         v2 = float(V[index_2])
         i1 = float(Id[index_1])
         i2 = float(Id[index_2])
-        return i1+((i2-i1)/(v2-v1))*(v_on-v1)
+        return i1+((i2-i1)/(v2-v1))*(v_def-v1)
     
     def calculate_i_on(self,Id,V,v_on):
         
