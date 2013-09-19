@@ -8,10 +8,15 @@ from bias_analyse import Ui_MainWindow
 from Data import BiasPacket
 from Controllers import PlotController,StatisticsController
 from threading import Thread
+'''
+Main program class. 
+'''
 class BiasAnalyse(QtGui.QMainWindow):
     
+    #default values
     CURR_V_ON = "1e-11"
     VOL_I_ON = "19.8"
+    
     def __init__(self,parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()    #note: instance, not the class

@@ -3,7 +3,9 @@ Created on Sep 17, 2013
 
 @author: Incalza Dario
 '''
-
+'''
+This class is capable of plotting data in the plotwidget
+''' 
 class PlotController(object):
 
     def __init__(self,plotWidget,statPlot):
@@ -50,7 +52,9 @@ class PlotController(object):
         
         self.__statPlot.canvas.draw()
         
-
+'''
+This class is responsible for calculating all statistics.
+'''
 class StatisticsController(object):
     
     def __init__(self,ui):

@@ -7,7 +7,9 @@ Created on Sep 16, 2013
 from PyQt4 import QtGui
 import sys
 from BiasAnalyse import BiasAnalyse
-
+'''
+Entry point of BiasAnalyse
+'''
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     app.processEvents()
