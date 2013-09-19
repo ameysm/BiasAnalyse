@@ -15,29 +15,39 @@ class PlotController(object):
         self.__statPlot.canvas.getAx_i().cla()
         self.__statPlot.canvas.getAx_v().cla()
     def plotIV_bias(self,Id,V):
+        
         Id = [abs(float(x)) for x in Id]
+        
         self.__plotWidget.canvas.ax.set_title("Bias I-V Curve")
-        self.__plotWidget.canvas.ax.set_xlabel("V_gate")
-        self.__plotWidget.canvas.ax.set_ylabel("I (log scale)")
+        self.__plotWidget.canvas.ax.set_xlabel("V_gate [V]")
+        self.__plotWidget.canvas.ax.set_ylabel("I [A]")
         self.__plotWidget.canvas.ax.set_yscale('log')
+        self.__plotWidget.canvas.ax.grid(True)
         self.__plotWidget.canvas.ax.plot(V,Id,'g',label='I_ds')
+        
         self.__plotWidget.canvas.draw()
     
     def saveCurrentPlot(self,savepath):
-        self.__plotWidget.canvas.getFig().savefig(savepath,dpi=300)
+        self.__plotWidget.canvas.getFig().savefig(savepath,dpi=150)
     
     def plotDeltaStat(self,delta_i,delta_v,delta_t):
+        
         self.clearDeltaPlot()
         delta_i = [float(i)*1e6 for i in delta_i]
+        
         self.__statPlot.canvas.getAx_i().set_title("Delta I_on")
         self.__statPlot.canvas.getAx_i().set_ylabel("Delta I_On [uA]")
         self.__statPlot.canvas.getAx_i().set_xscale('log')
+        self.__statPlot.canvas.getAx_i().grid(True)
         self.__statPlot.canvas.getAx_i().scatter(delta_t,delta_i,marker='o')
+        
         self.__statPlot.canvas.getAx_v().set_title("Delta V_on")
         self.__statPlot.canvas.getAx_v().set_xlabel("Time [s]")
         self.__statPlot.canvas.getAx_v().set_ylabel("Delta V_on [V]")
         self.__statPlot.canvas.getAx_v().set_xscale('log')
+        self.__statPlot.canvas.getAx_v().grid(True)
         self.__statPlot.canvas.getAx_v().scatter(delta_t,delta_v,marker='o')
+        
         self.__statPlot.canvas.draw()
         
 
@@ -96,4 +106,3 @@ class StatisticsController(object):
         v_on = self.calculate_v_on(Id,V,float(currVon))
         i_on = self.calculate_i_on(Id, V, float(voltIon))
         return (i_on,v_on)
- 
