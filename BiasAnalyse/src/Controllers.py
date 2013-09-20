@@ -6,6 +6,7 @@ Created on Sep 17, 2013
 '''
 This class is capable of plotting data in the plotwidget
 ''' 
+from collections import OrderedDict
 class PlotController(object):
 
     def __init__(self,plotWidget,statPlot):
@@ -16,40 +17,62 @@ class PlotController(object):
     def clearDeltaPlot(self):
         self.__statPlot.canvas.getAx_i().cla()
         self.__statPlot.canvas.getAx_v().cla()
-    def plotIV_bias(self,Id,V):
-        
+    def plotIV_bias(self,Id,V,direction):
         Id = [abs(float(x)) for x in Id]
-        
         self.__plotWidget.canvas.ax.set_title("Bias I-V Curve")
-        self.__plotWidget.canvas.ax.set_xlabel("V_gate [V]")
-        self.__plotWidget.canvas.ax.set_ylabel("I [A]")
+        self.__plotWidget.canvas.ax.set_xlabel("Vgs [V]")
+        self.__plotWidget.canvas.ax.set_ylabel("Ids [A]")
         self.__plotWidget.canvas.ax.set_yscale('log')
         self.__plotWidget.canvas.ax.grid(True)
-        self.__plotWidget.canvas.ax.plot(V,Id,'g',label='I_ds')
         
+        if direction == "positive":
+            self.__plotWidget.canvas.ax.plot(V,Id,'b',label='+1 MV/cm')
+        else:
+            self.__plotWidget.canvas.ax.plot(V,Id,'r',label='-1 MV/cm')
         self.__plotWidget.canvas.draw()
-    
+        
+    def setBiasLegend(self):
+        handles, labels = self.__plotWidget.canvas.ax.get_legend_handles_labels()
+        by_label = OrderedDict(zip(labels, handles))
+        self.__plotWidget.canvas.ax.legend(by_label.values(), by_label.keys(),loc='upper left')
+        self.__plotWidget.canvas.draw()
+        
+    def setDeltaLegend(self):
+        handles1, labels1 = self.__statPlot.canvas.getAx_i().get_legend_handles_labels()
+        by_label1 = OrderedDict(zip(labels1, handles1))
+        self.__statPlot.canvas.getAx_i().legend(by_label1.values(), by_label1.keys(),loc='lower left',scatterpoints=1)
+        
+        handles2, labels2 = self.__statPlot.canvas.getAx_v().get_legend_handles_labels()
+        by_label2 = OrderedDict(zip(labels2, handles2))
+        self.__statPlot.canvas.getAx_v().legend(by_label2.values(), by_label2.keys(),loc='lower left',scatterpoints=1)
+        
+        self.__statPlot.canvas.draw()
+        
     def saveCurrentPlot(self,savepath):
         self.__plotWidget.canvas.getFig().savefig(savepath,dpi=150)
     
-    def plotDeltaStat(self,delta_i,delta_v,delta_t):
+    def plotDeltaStat(self,delta_i,delta_v,delta_t,direction):
+       
+        delta_i = [float(i)*1e6 for i in delta_i] #transform values to the micro unit
         
-        self.clearDeltaPlot()
-        delta_i = [float(i)*1e6 for i in delta_i]
-        
-        self.__statPlot.canvas.getAx_i().set_title("Delta I_on")
-        self.__statPlot.canvas.getAx_i().set_ylabel("Delta I_On [uA]")
+        self.__statPlot.canvas.getAx_i().set_title("$\Delta  I_{on}$")
+        self.__statPlot.canvas.getAx_i().set_ylabel("$\Delta  I_{on}$ [uA]")
         self.__statPlot.canvas.getAx_i().set_xscale('log')
         self.__statPlot.canvas.getAx_i().grid(True)
-        self.__statPlot.canvas.getAx_i().scatter(delta_t,delta_i,marker='o')
         
-        self.__statPlot.canvas.getAx_v().set_title("Delta V_on")
+        self.__statPlot.canvas.getAx_v().set_title("$\Delta  V_{on}$")
         self.__statPlot.canvas.getAx_v().set_xlabel("Time [s]")
-        self.__statPlot.canvas.getAx_v().set_ylabel("Delta V_on [V]")
+        self.__statPlot.canvas.getAx_v().set_ylabel("$\Delta  V_{on}$ [V]")
         self.__statPlot.canvas.getAx_v().set_xscale('log')
         self.__statPlot.canvas.getAx_v().grid(True)
-        self.__statPlot.canvas.getAx_v().scatter(delta_t,delta_v,marker='o')
         
+        if direction == "positive":
+            self.__statPlot.canvas.getAx_i().scatter(delta_t,delta_i,color='b',marker='o',label="+1 MV/cm $\Delta I_{on}$")
+            self.__statPlot.canvas.getAx_v().scatter(delta_t,delta_v,color='b',marker='o',label="+1 MV/cm $\Delta V_{on}$")
+        else:
+            self.__statPlot.canvas.getAx_i().scatter(delta_t,delta_i,color='r',marker='o',label="-1 MV/cm $\Delta I_{on}$")
+            self.__statPlot.canvas.getAx_v().scatter(delta_t,delta_v,color='r',marker='o',label="-1 MV/cm $\Delta V_{on}$")
+            
         self.__statPlot.canvas.draw()
         
 '''

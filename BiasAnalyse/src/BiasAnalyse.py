@@ -20,6 +20,7 @@ class BiasAnalyse(QtGui.QMainWindow):
     def __init__(self,parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.ui = Ui_MainWindow()    #note: instance, not the class
+        self.setWindowIcon(QtGui.QIcon('imec.png'))
         self.ui.setupUi(self)
         self.filePath = None
         self.pathRoot = QtCore.QDir.rootPath()
@@ -60,16 +61,23 @@ class BiasAnalyse(QtGui.QMainWindow):
         self.ui.voltage_i_on.setText(BiasAnalyse.VOL_I_ON)
         
     def calculatedata(self):
+        
         self.clearStatTable()
         if self.filePath == None:
             QtGui.QMessageBox.warning(None, QtCore.QString("No bias file"), QtCore.QString("No bias file was selected, so there is nothing to calculate."), QtGui.QMessageBox.Ok)
             return
+        paths = self.getNegativeAndPositive(self.filePath)
+        self.__plotController.clearBiasPlot()
+        self.__plotController.clearDeltaPlot()
+        
+        self.parseAndCalculate(paths['positive'], 'positive')
+        self.parseAndCalculate(paths['negative'], 'negative')
+        
+    def parseAndCalculate(self,filepath,direction):
         delta_i = []
         delta_v = []
         delta_t = []
-        self.__plotController.clearBiasPlot()
-        self.__plotController.clearDeltaPlot()
-        datadict = self.parseBiasFile(self.filePath)
+        datadict = self.parseBiasFile(filepath)
         if datadict == None:
             return
         try:
@@ -81,18 +89,18 @@ class BiasAnalyse(QtGui.QMainWindow):
         for key in sorted(datadict):
             Id = datadict[key].getDrainList()
             v = datadict[key].getVoltageList()
-            thread = Thread(target=self.__plotController.plotIV_bias,args=(Id, v))
-            thread.start()
+            self.__plotController.plotIV_bias(Id, v,direction)
             t= self.__statController.calculateStatistics(Id,v,str(self.ui.current_v_on.text()),str(self.ui.voltage_i_on.text()))
             delta_i.append(t[0]-t_0[0])
             delta_v.append(t[1]-t_0[1])
             delta_t.append(key)
             self.insertStatinTable(key, t[0]-t_0[0], t[1]-t_0[1])
             
-        thread2 = Thread(target=self.__plotController.plotDeltaStat,args=(delta_i, delta_v, delta_t))
+        thread2 = Thread(target=self.__plotController.plotDeltaStat,args=(delta_i, delta_v, delta_t,direction))
         thread2.start()
         self.addToOverview(t[0]-t_0[0], t[1]-t_0[1])
-    
+        self.__plotController.setBiasLegend()
+        self.__plotController.setDeltaLegend()
     def addToOverview(self,i_on,v_on):
         lastrow = self.ui.statTable.rowCount()
         self.ui.statTable.insertRow(lastrow)
@@ -115,7 +123,10 @@ class BiasAnalyse(QtGui.QMainWindow):
         self.ui.tableWidget.setItem(lastrow, 2, delta_v)
         
     def parseBiasFile(self,filepath):
-        myfile = open(filepath,'r')
+        try:
+            myfile = open(filepath,'r')
+        except IOError:
+            return None
         file_content = myfile.readlines()
         datadict = dict()
         boolInSweep = False
@@ -148,4 +159,13 @@ class BiasAnalyse(QtGui.QMainWindow):
             QtGui.QMessageBox.warning(None, QtCore.QString("DataError"), QtCore.QString("Seems like the data file is corrupt or misses sweep data. "), QtGui.QMessageBox.Ok)
             return None
         return datadict
-                
+    
+    def getNegativeAndPositive(self,filepath):
+        str_elements = filepath.split("_")
+        del str_elements[-1]
+        negative = "_".join(str_elements)+"_negative.bias"
+        positive = "_".join(str_elements)+"_positive.bias"
+        files = dict()
+        files['positive'] = positive
+        files['negative'] = negative
+        return files

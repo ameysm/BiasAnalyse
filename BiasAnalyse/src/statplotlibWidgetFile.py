@@ -39,12 +39,12 @@ class statplotlibWidget(QtGui.QWidget):
     def __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
         self.canvas = MplCanvas()
-        self.canvas.ax_i.set_title("Delta I_on")
-        self.canvas.ax_i.set_ylabel("Delta I")
+        self.canvas.ax_i.set_title("$\Delta  I_{on}$")
+        self.canvas.ax_i.set_ylabel("$\Delta$ I")
         
-        self.canvas.ax_v.set_title("Delta V_on")
+        self.canvas.ax_v.set_title("$\Delta V_{on}$")
         self.canvas.ax_v.set_xlabel("Time [s]")
-        self.canvas.ax_v.set_ylabel("Delta V")
+        self.canvas.ax_v.set_ylabel("$\Delta$ V")
         
         self.toolbar = NavigationToolbar2QT(self.canvas, None, True)
         self.vbl = QtGui.QVBoxLayout()
